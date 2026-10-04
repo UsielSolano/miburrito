@@ -1,15 +1,26 @@
-
-import './App.css'
+import { useState } from 'react';
+import { CarritoProvider } from './context/CarritoContext';
+import Hero from './components/Hero/Hero';
+import Especialidades from './components/Especialidades/Especialidades';
+import MenuBurritos from './components/MenuBurritos/MenuBurritos';
+import Footer from './components/Footer/Footer';
+import CarritoModal from './components/CarritoModal/CarritoModal';
+import './App.css';
 
 function App() {
- 
+  const [carritoAbierto, setCarritoAbierto] = useState(false);
 
   return (
-    <>
-      <h1>Start</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus ad quo, totam illum corrupti minus, molestias ut quidem quod, in eos praesentium pariatur iusto corporis culpa perferendis tenetur nostrum voluptate!</p>
-    </>
-  )
+    <CarritoProvider>
+      <div className="app">
+        <Hero />
+        <Especialidades />
+        <MenuBurritos onAbrirCarrito={() => setCarritoAbierto(true)} />
+        <Footer />
+        {carritoAbierto && <CarritoModal onCerrar={() => setCarritoAbierto(false)} />}
+      </div>
+    </CarritoProvider>
+  );
 }
 
-export default App
+export default App;

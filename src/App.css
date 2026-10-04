@@ -1,184 +1,339 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
-
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-}
-
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
-}
-
-#center {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
-}
-
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
+* {
+  margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background: #fff8f0;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  height: 60vh;
+  background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+    url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=1600') center/cover;
   display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.hero h1 {
+  font-size: 4rem;
+  color: #ffb347;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
 }
 
-.ticks {
-  position: relative;
+.hero p {
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* ESPECIALIDADES */
+.especialidades {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.especialidades h2 {
+  font-size: 2.5rem;
+  color: #b03a2e;
+  margin-bottom: 2rem;
+}
+
+.especialidades-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.especialidad-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.especialidad-card:hover {
+  transform: translateY(-8px);
+}
+
+.especialidad-card img {
   width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
-  }
+.especialidad-card h3 {
+  padding: 1rem 1rem 0.5rem;
+  color: #b03a2e;
+}
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
-  }
+.especialidad-card p {
+  padding: 0 1rem 1.5rem;
+  color: #666;
+}
+
+/* MENÚ */
+.menu-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #fff;
+}
+
+.menu-section h2 {
+  font-size: 2.5rem;
+  color: #b03a2e;
+  margin-bottom: 0.5rem;
+}
+
+.menu-nota {
+  color: #888;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.burrito-card {
+  background: #fff8f0;
+  border: 2px solid #ffb347;
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.burrito-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255,179,71,0.4);
+}
+
+.burrito-card h3 {
+  color: #b03a2e;
+  margin-bottom: 0.5rem;
+}
+
+.burrito-card .ingredientes {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.75rem;
+}
+
+.burrito-card .precio {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+  margin-bottom: 1rem;
+}
+
+.burrito-card button {
+  background: #b03a2e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+.burrito-card button:hover {
+  background: #872d24;
+}
+
+/* BOTÓN CARRITO */
+.btn-carrito-flotante {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 1rem 1.8rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(39,174,96,0.5);
+  z-index: 100;
+  transition: transform 0.3s;
+}
+
+.btn-carrito-flotante:hover {
+  transform: scale(1.05);
+}
+
+/* MODAL GENÉRICO */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-card h3 {
+  color: #b03a2e;
+  margin-bottom: 1rem;
+}
+
+.check-opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.extra-select {
+  margin-bottom: 1rem;
+}
+
+.extra-select label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.extra-select select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.cantidad-control button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffb347;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.cantidad-control span {
+  font-size: 1.3rem;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.cantidad-control small {
+  color: #999;
+}
+
+.total-modal {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #27ae60;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.modal-botones {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-botones button {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancelar {
+  background: #eee;
+  color: #555;
+}
+
+.btn-agregar {
+  background: #27ae60;
+  color: white;
+}
+
+/* FOOTER */
+.footer {
+  background: #2c1810;
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.footer h3 {
+  color: #ffb347;
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.redes {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.redes a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.redes a:hover {
+  color: #ffb347;
+}
+
+.copyright {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin-top: 1rem;
 }

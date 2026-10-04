@@ -1,0 +1,139 @@
+.carrito-modal {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 550px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.carrito-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #ffb347;
+  padding-bottom: 1rem;
+}
+
+.carrito-header h2 {
+  color: #b03a2e;
+}
+
+.btn-cerrar {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.carrito-vacio {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+}
+
+.carrito-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+  gap: 1rem;
+}
+
+.item-detalle {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 0.25rem;
+}
+
+.item-precio {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.item-precio span {
+  font-weight: bold;
+  color: #27ae60;
+  font-size: 1.1rem;
+}
+
+.item-precio button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.carrito-resumen {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fff8f0;
+  border-radius: 12px;
+}
+
+.resumen-linea {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+}
+
+.resumen-linea.total {
+  border-top: 2px solid #ffb347;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #b03a2e;
+}
+
+.pago-seccion h3 {
+  color: #b03a2e;
+  margin-bottom: 1rem;
+}
+
+.pago-opciones {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.pago-opciones label {
+  flex: 1;
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pago-opciones label.activo {
+  border-color: #27ae60;
+  background: #eafaf1;
+}
+
+.pago-opciones input {
+  display: none;
+}
+
+.btn-hacer-pedido {
+  width: 100%;
+  padding: 1.1rem;
+  background: #25D366;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-hacer-pedido:hover {
+  background: #1eb954;
+}
