@@ -21,10 +21,10 @@ const CarritoModal = ({ onCerrar }) => {
       return;
     }
 
-    let mensaje = '*🌯 PEDIDO - EL K TE KOMES 🌯*\n\n';
+    let mensaje = "*🌯 PEDIDO - Names'nt 🌯*\n\n";
     carrito.forEach((item, i) => {
       mensaje += `*${i + 1}. Burrito de ${item.nombre}* (x${item.cantidad})\n`;
-      mensaje += `   Base: arroz, frijol, lechuga\n`;
+      mensaje += `   Base: arroz rojo, frijol, lechuga\n`;
       if (item.conJitomateCebolla) mensaje += `   + Jitomate y cebolla\n`;
       if (item.extra) mensaje += `   + Extra: ${item.extra} (+$10)\n`;
       mensaje += `   Subtotal: $${item.precioTotal}\n\n`;
@@ -58,7 +58,7 @@ const CarritoModal = ({ onCerrar }) => {
                   <div>
                     <strong>Burrito de {item.nombre} (x{item.cantidad})</strong>
                     <p className="item-detalle">
-                      Arroz · Frijol · Lechuga
+                      Arroz rojo· Frijol · Lechuga
                       {item.conJitomateCebolla && ' · Jitomate y cebolla'}
                       {item.extra && ` · Extra: ${item.extra}`}
                     </p>

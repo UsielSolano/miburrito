@@ -44,7 +44,7 @@ const BurritoCard = ({ burrito }) => {
     <>
       <div className="burrito-card">
         <h3>Burrito de {burrito.nombre}</h3>
-        <p className="ingredientes">Arroz · Frijol · Lechuga</p>
+        <p className="ingredientes">Arroz rojo · Frijol · Lechuga</p>
         <p className="precio">${burrito.precio}</p>
         <button onClick={() => setModalAbierto(true)}>Personalizar</button>
       </div>
