@@ -3,7 +3,7 @@ import './Footer.css';
 const Footer = () => {
   return (
     <footer className="footer">
-      <h3>Names'nt</h3>
+      <h3>BÜRRITÜS</h3>
       <p>Síguenos en nuestras redes </p>
       <div className="redes">
         <a href="https://instagram.com/elktekomess" target="_blank" rel="noreferrer"> Instagram</a>
