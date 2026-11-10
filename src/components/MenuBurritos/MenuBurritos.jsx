@@ -1,5 +1,5 @@
 import BurritoCard from '../BurritoCard/BurritoCard';
-import { useCarrito } from '../../context/CarritoContext';
+import { useCarrito } from '../../context/useCarrito';
 import './MenuBurritos.css';
 
 const burritos = [

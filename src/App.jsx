@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CarritoProvider } from './context/CarritoContext';
+import { CarritoProvider } from './context/CarritoProvider';
 import Hero from './components/Hero/Hero';
 import Especialidades from './components/Especialidades/Especialidades';
 import MenuBurritos from './components/MenuBurritos/MenuBurritos';
