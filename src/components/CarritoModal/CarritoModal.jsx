@@ -3,7 +3,27 @@ import { useCarrito } from '../../context/CarritoContext';
 import './CarritoModal.css';
 
 const COSTO_ENVIO = 40;
-const WHATSAPP_NUMERO = '3121508470';
+const WHATSAPP_NUMERO = '521234567890'; // ← cambia por tu número
+
+const formatearOpciones = (item) => {
+  const partes = [];
+
+  if (item.extraProteina) partes.push(`Extra ${item.extraProteina}`);
+
+  const salsas = Object.entries(item.salsas || {})
+    .filter(([, n]) => n > 0)
+    .map(([s, n]) => (n > 1 ? `${s} x${n}` : s));
+  if (salsas.length) partes.push(`Salsa: ${salsas.join(', ')}`);
+
+  const aderezos = Object.entries(item.aderezos || {})
+    .filter(([, n]) => n > 0)
+    .map(([a, n]) => (n > 1 ? `${a} x${n}` : a));
+  if (aderezos.length) partes.push(`Aderezo: ${aderezos.join(', ')}`);
+
+  if (item.picoDeGallo > 0) partes.push(`Pico de gallo x${item.picoDeGallo}`);
+
+  return partes.join(' · ');
+};
 
 const CarritoModal = ({ onCerrar }) => {
   const { carrito, eliminarDelCarrito, vaciarCarrito, total } = useCarrito();
@@ -21,18 +41,37 @@ const CarritoModal = ({ onCerrar }) => {
       return;
     }
 
-    let mensaje = "*🌯 PEDIDO - Names'nt 🌯*\n\n";
+    let mensaje = '*🌯 PEDIDO - BÜRRITÜS🌯*\n\n';
     carrito.forEach((item, i) => {
-      mensaje += `*${i + 1}. Burrito de ${item.nombre}* (x${item.cantidad})\n`;
-      mensaje += `   Base: arroz rojo, frijol, lechuga\n`;
-      if (item.conJitomateCebolla) mensaje += `   + Jitomate y cebolla\n`;
-      if (item.extra) mensaje += `   + Extra: ${item.extra} (+$10)\n`;
+      mensaje += `*${i + 1}. Burrito ${item.nombre}* (x${item.cantidad})\n`;
+      mensaje += item.esLowCarb
+        ? `   Low Carb (sin tortilla)\n`
+        : `   Base: arroz rojo, frijol, lechuga, queso\n`;
+
+      const salsas = Object.entries(item.salsas || {})
+        .filter(([, n]) => n > 0)
+        .map(([s, n]) => (n > 1 ? `${s} x${n}` : s))
+        .join(', ');
+      if (salsas) mensaje += `   + Salsa: ${salsas}\n`;
+
+      const aderezos = Object.entries(item.aderezos || {})
+        .filter(([, n]) => n > 0)
+        .map(([a, n]) => (n > 1 ? `${a} x${n}` : a))
+        .join(', ');
+      if (aderezos) mensaje += `   + Aderezo: ${aderezos}\n`;
+
+      if (item.picoDeGallo > 0) mensaje += `   + Pico de gallo x${item.picoDeGallo}\n`;
+      if (item.extraProteina) mensaje += `   + Extra: ${item.extraProteina} (+$10)\n`;
+
       mensaje += `   Subtotal: $${item.precioTotal}\n\n`;
     });
+
     mensaje += `*Subtotal:* $${total}\n`;
     mensaje += `*Envío:* $${COSTO_ENVIO}\n`;
     mensaje += `*TOTAL A PAGAR:* $${totalConEnvio}\n\n`;
-    mensaje += `*Método de pago:* ${tipoPago === 'transferencia' ? 'Transferencia' : 'Efectivo'}`;
+    mensaje += `*Método de pago:* ${
+      tipoPago === 'transferencia' ? 'Transferencia' : 'Efectivo'
+    }`;
 
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
@@ -44,8 +83,10 @@ const CarritoModal = ({ onCerrar }) => {
     <div className="modal-overlay" onClick={onCerrar}>
       <div className="carrito-modal" onClick={(e) => e.stopPropagation()}>
         <div className="carrito-header">
-          <h2>🛒 Tu Pedido</h2>
-          <button className="btn-cerrar" onClick={onCerrar}>✕</button>
+          <h2> 🛒 Tu Pedido</h2>
+          <button className="btn-cerrar" onClick={onCerrar}>
+            ✕
+          </button>
         </div>
 
         {carrito.length === 0 ? (
@@ -56,12 +97,15 @@ const CarritoModal = ({ onCerrar }) => {
               {carrito.map((item) => (
                 <div key={item.id} className="carrito-item">
                   <div>
-                    <strong>Burrito de {item.nombre} (x{item.cantidad})</strong>
+                    <strong>
+                      Burrito {item.nombre} (x{item.cantidad})
+                    </strong>
                     <p className="item-detalle">
-                      Arroz rojo· Frijol · Lechuga
-                      {item.conJitomateCebolla && ' · Jitomate y cebolla'}
-                      {item.extra && ` · Extra: ${item.extra}`}
+                      {item.esLowCarb
+                        ? 'Low Carb (sin tortilla)'
+                        : 'Arroz rojo · Frijol · Lechuga · Queso'}
                     </p>
+                    <p className="item-detalle">{formatearOpciones(item)}</p>
                   </div>
                   <div className="item-precio">
                     <span>${item.precioTotal}</span>

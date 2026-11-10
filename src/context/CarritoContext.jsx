@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 
-const CarritoContext = createContext();
 
-// eslint-disable-next-line react-refresh/only-export-components
+export const CarritoContext = createContext();   // ← agregar 'export'
+
 export const useCarrito = () => useContext(CarritoContext);
 
 export const CarritoProvider = ({ children }) => {

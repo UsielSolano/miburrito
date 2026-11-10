@@ -1,3 +1,51 @@
+.menu-section {
+  padding: 4rem 2rem;
+  text-align: center;
+  background: #fff;
+}
+
+.menu-section > h2 {
+  font-size: 2.5rem;
+  color: #b03a2e;
+  margin-bottom: 0.5rem;
+}
+
+.menu-nota {
+  color: #888;
+  font-style: italic;
+  margin-bottom: 2rem;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+}
+
+.btn-carrito-flotante {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  padding: 1rem 1.8rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(39, 174, 96, 0.5);
+  z-index: 100;
+  transition: transform 0.3s;
+}
+
+.btn-carrito-flotante:hover {
+  transform: scale(1.05);
+}
+
+/* LOW CARB */
 .lowcarb-seccion {
   margin-top: 4rem;
   padding-top: 3rem;
@@ -8,35 +56,4 @@
   color: #27ae60;
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
-}
-
-.burrito-card.lowcarb {
-  border-color: #a8e063;
-  background: #f2fce8;
-}
-
-.burrito-card.lowcarb:hover {
-  box-shadow: 0 10px 25px rgba(168, 224, 99, 0.5);
-}
-
-.badge-lowcarb {
-  display: inline-block;
-  background: #27ae60;
-  color: white;
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 0.25rem 0.6rem;
-  border-radius: 20px;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
-}
-
-.nota-lowcarb {
-  background: #eafaf1;
-  color: #27ae60;
-  padding: 0.5rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
 }

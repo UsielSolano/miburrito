@@ -5,15 +5,15 @@ import './MenuBurritos.css';
 const burritos = [
   { nombre: 'Pollo', precio: 95 },
   { nombre: 'Arrachera', precio: 105 },
-  { nombre: 'Vegetariano', precio: 95 },
-  { nombre: 'Adobada', precio: 105 },
+  { nombre: 'Vegetariano', precio: 85 },
+  { nombre: 'Adobada', precio: 115 },
 ];
 
 const burritosLowCarb = [
-  { nombre: 'Pollo ', precio: 90 },
-  { nombre: 'Arrachera ', precio: 100 },
-  { nombre: 'Vegetariano ', precio: 90 },
-  { nombre: 'Adobada ', precio: 100 },
+  { nombre: 'Pollo Low Carb', precio: 145 },
+  { nombre: 'Arrachera Low Carb', precio: 165 },
+  { nombre: 'Vegetariano Low Carb', precio: 115 },
+  { nombre: 'Adobada Low Carb', precio: 145 },
 ];
 
 const MenuBurritos = ({ onAbrirCarrito }) => {
@@ -23,7 +23,7 @@ const MenuBurritos = ({ onAbrirCarrito }) => {
     <section className="menu-section" id="menu">
       <h2>Menú de Burritos</h2>
       <p className="menu-nota">
-        Todos incluyen: arroz rojo, frijol y lechuga · Jitomate y cebolla opcional (sin costo)
+        Todos incluyen: arroz rojo, frijol, lechuga y queso · Salsas, aderezos y pico de gallo (1 de cada uno gratis)
       </p>
       <div className="menu-grid">
         {burritos.map((b, i) => (
@@ -31,12 +31,11 @@ const MenuBurritos = ({ onAbrirCarrito }) => {
         ))}
       </div>
 
-      {/* ───── LÍNEA LOW CARB ───── */}
       <div className="lowcarb-seccion">
         <div className="lowcarb-header">
           <h2>Línea Low Carb </h2>
           <p className="menu-nota">
-            Sin tortilla · Lechuga, arroz rojo, frijol y jitomate · Jitomate y cebolla opcional (sin costo)
+            Sin tortilla · Lechuga, arroz rojo, frijol y queso · Salsas, aderezos y pico de gallo (1 de cada uno gratis)
           </p>
         </div>
         <div className="menu-grid">

@@ -1,0 +1,258 @@
+.burrito-card {
+  background: #fff8f0;
+  border: 2px solid #ffb347;
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+}
+
+.burrito-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(255, 179, 71, 0.4);
+}
+
+.burrito-card h3 {
+  color: #b03a2e;
+  margin-bottom: 0.5rem;
+}
+
+.burrito-card .ingredientes {
+  font-size: 0.85rem;
+  color: #777;
+  margin-bottom: 0.75rem;
+}
+
+.burrito-card .precio {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #27ae60;
+  margin-bottom: 1rem;
+}
+
+.burrito-card button {
+  background: #b03a2e;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s;
+}
+
+.burrito-card button:hover {
+  background: #872d24;
+}
+
+.burrito-card.lowcarb {
+  border-color: #a8e063;
+  background: #f2fce8;
+}
+
+.burrito-card.lowcarb:hover {
+  box-shadow: 0 10px 25px rgba(168, 224, 99, 0.5);
+}
+
+.badge-lowcarb {
+  display: inline-block;
+  background: #27ae60;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 440px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-card h3 {
+  color: #b03a2e;
+  margin-bottom: 1rem;
+}
+
+.nota-lowcarb {
+  background: #eafaf1;
+  color: #27ae60;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* GRUPOS DE OPCIONES */
+.opcion-grupo {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.opcion-titulo {
+  font-weight: 600;
+  color: #b03a2e;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.opcion-titulo small {
+  color: #888;
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+.opcion-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  color: #444;
+}
+
+.contador {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.contador button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #ffb347;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contador span {
+  min-width: 22px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* EXTRA */
+.extra-select {
+  margin-bottom: 1rem;
+}
+
+.extra-select label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.extra-select select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+/* CANTIDAD */
+.cantidad-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.cantidad-control button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffb347;
+  color: white;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.cantidad-control span {
+  font-size: 1.3rem;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+.cantidad-control small {
+  color: #999;
+}
+
+/* DESGLOSE */
+.desglose-modal {
+  background: #fff8f0;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.desglose-modal p {
+  margin: 0.25rem 0;
+}
+
+.desglose-modal .total-modal {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #27ae60;
+  margin-top: 0.5rem;
+  border-top: 1px solid #ffb347;
+  padding-top: 0.5rem;
+}
+
+/* BOTONES MODAL */
+.modal-botones {
+  display: flex;
+  gap: 1rem;
+}
+
+.modal-botones button {
+  flex: 1;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancelar {
+  background: #eee;
+  color: #555;
+}
+
+.btn-agregar {
+  background: #27ae60;
+  color: white;
+}
