@@ -1,4 +1,6 @@
-/* OVERLAY (fondo oscuro) */
+/* ═══════════════════════════════════════════
+   OVERLAY (fondo oscuro)
+   ═══════════════════════════════════════════ */
 .carrito-overlay {
   position: fixed;
   top: 0;
@@ -17,7 +19,9 @@
   overflow-y: auto;
 }
 
-/* CONTENEDOR */
+/* ═══════════════════════════════════════════
+   CONTENEDOR DEL MODAL
+   ═══════════════════════════════════════════ */
 .carrito-modal {
   background: #ffffff;
   border-radius: 20px;
@@ -43,7 +47,9 @@
   }
 }
 
-/* HEADER */
+/* ═══════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════ */
 .carrito-header {
   display: flex;
   justify-content: space-between;
@@ -70,7 +76,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .btn-cerrar:hover {
@@ -78,7 +84,9 @@
   color: #b03a2e;
 }
 
-/* VACÍO */
+/* ═══════════════════════════════════════════
+   VACÍO
+   ═══════════════════════════════════════════ */
 .carrito-vacio {
   text-align: center;
   color: #999;
@@ -86,7 +94,9 @@
   font-size: 1rem;
 }
 
-/* ITEMS */
+/* ═══════════════════════════════════════════
+   LISTA DE ITEMS
+   ═══════════════════════════════════════════ */
 .carrito-items {
   max-height: 40vh;
   overflow-y: auto;
@@ -141,33 +151,9 @@
   opacity: 1;
 }
 
-/* RESUMEN */
-.carrito-resumen {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: #fff8f0;
-  border-radius: 12px;
-  border: 1px solid #ffe0b2;
-}
-
-.resumen-linea {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.4rem 0;
-  color: #555;
-  font-size: 0.95rem;
-}
-
-.resumen-linea.total {
-  border-top: 2px solid #ffb347;
-  margin-top: 0.5rem;
-  padding-top: 0.75rem;
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #b03a2e;
-}
-
-/* PAGO / ENTREGA */
+/* ═══════════════════════════════════════════
+   MÉTODO DE ENTREGA / PAGO
+   ═══════════════════════════════════════════ */
 .pago-seccion {
   margin-bottom: 1.25rem;
 }
@@ -194,6 +180,7 @@
   transition: all 0.2s;
   font-size: 0.9rem;
   background: white;
+  color: #444;
 }
 
 .pago-opciones label:hover {
@@ -204,13 +191,16 @@
   border-color: #27ae60;
   background: #eafaf1;
   font-weight: 600;
+  color: #1e8449;
 }
 
 .pago-opciones input {
   display: none;
 }
 
-/* FORMULARIO ENVÍO */
+/* ═══════════════════════════════════════════
+   FORMULARIO DE ENVÍO
+   ═══════════════════════════════════════════ */
 .form-envio {
   background: #fff8f0;
   border: 2px dashed #ffb347;
@@ -246,6 +236,7 @@
   font-size: 1rem;
   transition: border-color 0.2s;
   background: white;
+  color: #333;
 }
 
 .form-grupo input:focus {
@@ -270,7 +261,32 @@
   gap: 0.75rem;
 }
 
-/* PICKUP INFO */
+/* ═══════════════════════════════════════════
+   INFO DINÁMICA DE ENVÍO CALCULADO
+   ═══════════════════════════════════════════ */
+.envio-calculado {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #eafaf1;
+  border: 1px solid #27ae60;
+  border-radius: 8px;
+  color: #1e8449;
+  font-size: 0.9rem;
+}
+
+.envio-calculado p {
+  margin: 0.2rem 0;
+}
+
+.envio-calculado.envio-error {
+  background: #fdecea;
+  border-color: #e74c3c;
+  color: #c0392b;
+}
+
+/* ═══════════════════════════════════════════
+   PICKUP INFO
+   ═══════════════════════════════════════════ */
 .pickup-info {
   background: #eafaf1;
   border: 2px solid #27ae60;
@@ -290,7 +306,37 @@
   font-size: 1rem;
 }
 
-/* BOTÓN PEDIDO */
+/* ═══════════════════════════════════════════
+   RESUMEN
+   ═══════════════════════════════════════════ */
+.carrito-resumen {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #fff8f0;
+  border-radius: 12px;
+  border: 1px solid #ffe0b2;
+}
+
+.resumen-linea {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.resumen-linea.total {
+  border-top: 2px solid #ffb347;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #b03a2e;
+}
+
+/* ═══════════════════════════════════════════
+   BOTÓN PEDIDO
+   ═══════════════════════════════════════════ */
 .btn-hacer-pedido {
   width: 100%;
   padding: 1.1rem;
@@ -313,7 +359,9 @@
   transform: scale(0.98);
 }
 
-/* RESPONSIVE */
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
 @media (max-width: 600px) {
   .carrito-overlay {
     padding: 0.5rem;

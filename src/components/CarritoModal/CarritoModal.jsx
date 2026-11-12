@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useCarrito } from '../../context/useCarrito';
+import { buscarZona } from '../../utils/calcularEnvio';
 import './CarritoModal.css';
 
-const COSTO_ENVIO = 50;
-const WHATSAPP_NUMERO = '523121508470';
+const WHATSAPP_NUMERO = '523121508470'; // ← cambia por tu número
 const DIRECCION_PICKUP = 'Calle Castilla #1383, Montellano 2';
 
 const formatearOpciones = (item) => {
@@ -39,7 +39,12 @@ const CarritoModal = ({ onCerrar }) => {
   const [errores, setErrores] = useState({});
 
   const esEnvio = tipoEntrega === 'envio';
-  const totalConEnvio = total + (carrito.length > 0 && esEnvio ? COSTO_ENVIO : 0);
+
+  // 🔥 Cálculo dinámico de envío basado en CP + Colonia
+  const zonaInfo = buscarZona(formEnvio.cp, formEnvio.colonia);
+  const costoEnvio = esEnvio ? zonaInfo?.costo ?? null : 0;
+  const envioValido = !esEnvio || costoEnvio !== null;
+  const totalConEnvio = total + (envioValido ? costoEnvio || 0 : 0);
 
   const handleChangeForm = (campo, valor) => {
     setFormEnvio((prev) => ({ ...prev, [campo]: valor }));
@@ -71,19 +76,31 @@ const CarritoModal = ({ onCerrar }) => {
       alert('Tu carrito está vacío');
       return;
     }
-    if (esEnvio && !validarFormulario()) {
-      alert('Completa todos los campos de la dirección de envío');
-      return;
+    if (esEnvio) {
+      if (!validarFormulario()) {
+        alert('Completa todos los campos de la dirección de envío');
+        return;
+      }
+      if (costoEnvio === null) {
+        alert(
+          'No tenemos cobertura para ese CP/Colonia. Revisa los datos o contáctanos por WhatsApp.'
+        );
+        return;
+      }
     }
 
-    let mensaje = '*PEDIDO - BÜRRITÜS *\n\n';
+    let mensaje = '* PEDIDO - BÜRRITÜS *\n\n';
 
     // Método de entrega
     if (esEnvio) {
-      mensaje += `* <3 Entrega a domicilio*\n`;
+      mensaje += `* Entrega a domicilio*\n`;
       mensaje += `   Dirección: Calle ${formEnvio.calle} #${formEnvio.numero}\n`;
       mensaje += `   Colonia: ${formEnvio.colonia}\n`;
-      mensaje += `   CP: ${formEnvio.cp}\n\n`;
+      mensaje += `   CP: ${formEnvio.cp}\n`;
+      if (zonaInfo) {
+        mensaje += `   Zona: ${zonaInfo.zona} (${zonaInfo.distancia} km)\n`;
+      }
+      mensaje += `\n`;
     } else {
       mensaje += `*🏪 Pick Up*\n`;
       mensaje += `   Recoger en: ${DIRECCION_PICKUP}\n\n`;
@@ -117,14 +134,15 @@ const CarritoModal = ({ onCerrar }) => {
     // Totales
     mensaje += `*Subtotal:* $${total}\n`;
     if (esEnvio) {
-      mensaje += `*Envío:* $${COSTO_ENVIO}\n`;
+      mensaje += `*Envío:* $${costoEnvio}\n`;
       mensaje += `*TOTAL A PAGAR:* $${totalConEnvio}\n\n`;
     } else {
       mensaje += `*TOTAL A PAGAR:* $${total} (Pick Up)\n\n`;
     }
 
-    mensaje += `*Método de pago:* ${tipoPago === 'transferencia' ? 'Transferencia' : 'Efectivo'
-      }`;
+    mensaje += `*Método de pago:* ${
+      tipoPago === 'transferencia' ? 'Transferencia' : 'Efectivo'
+    }`;
 
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
@@ -146,6 +164,7 @@ const CarritoModal = ({ onCerrar }) => {
           <p className="carrito-vacio">Tu carrito está vacío</p>
         ) : (
           <>
+            {/* ITEMS */}
             <div className="carrito-items">
               {carrito.map((item) => (
                 <div key={item.id} className="carrito-item">
@@ -199,16 +218,20 @@ const CarritoModal = ({ onCerrar }) => {
             {esEnvio && (
               <div className="form-envio">
                 <p className="form-envio-info">
-                  📍 Recoger también disponible en: <strong>{DIRECCION_PICKUP}</strong>
+                  📍 También puedes recoger en: <strong>{DIRECCION_PICKUP}</strong>
                 </p>
 
                 <div className="form-grupo">
                   <label>CP *</label>
                   <input
                     type="text"
+                    inputMode="numeric"
                     value={formEnvio.cp}
-                    onChange={(e) => handleChangeForm('cp', e.target.value)}
-                    placeholder="Ej. 64000"
+                    onChange={(e) =>
+                      handleChangeForm('cp', e.target.value.replace(/\D/g, ''))
+                    }
+                    placeholder="Ej. 28989"
+                    maxLength={5}
                     className={errores.cp ? 'error' : ''}
                   />
                   {errores.cp && <span className="error-msg">{errores.cp}</span>}
@@ -257,6 +280,31 @@ const CarritoModal = ({ onCerrar }) => {
                     )}
                   </div>
                 </div>
+
+                {/* INFO DINÁMICA DE ENVÍO */}
+                {formEnvio.cp.length === 5 && formEnvio.colonia.trim() && (
+                  <div
+                    className={`envio-calculado ${
+                      costoEnvio === null ? 'envio-error' : ''
+                    }`}
+                  >
+                    {costoEnvio !== null ? (
+                      <>
+                        <p>
+                          ✅ Cobertura confirmada · <strong>{zonaInfo.zona}</strong>
+                        </p>
+                        <p>
+                          Costo de envío: <strong>${costoEnvio}</strong>
+                        </p>
+                      </>
+                    ) : (
+                      <p>
+                        ❌ No tenemos cobertura para ese CP/Colonia. Contáctanos
+                        por WhatsApp.
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
@@ -277,7 +325,9 @@ const CarritoModal = ({ onCerrar }) => {
               {esEnvio && (
                 <div className="resumen-linea">
                   <span>Costo de envío:</span>
-                  <span>${COSTO_ENVIO}</span>
+                  <span>
+                    {costoEnvio !== null ? `$${costoEnvio}` : 'No disponible'}
+                  </span>
                 </div>
               )}
               <div className="resumen-linea total">
