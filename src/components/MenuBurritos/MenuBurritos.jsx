@@ -3,10 +3,10 @@ import { useCarrito } from '../../context/useCarrito';
 import './MenuBurritos.css';
 
 const burritos = [
-  { nombre: 'Pollo', precio: 95 },
-  { nombre: 'Arrachera', precio: 105 },
-  { nombre: 'Vegetariano', precio: 85 },
-  { nombre: 'Adobada', precio: 115 },
+  { nombre: 'Pollo', precio: 145 },
+  { nombre: 'Arrachera', precio: 165 },
+  { nombre: 'Vegetariano', precio: 115 },
+  { nombre: 'Adobada', precio: 145 },
 ];
 
 const burritosLowCarb = [

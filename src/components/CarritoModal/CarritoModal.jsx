@@ -3,8 +3,14 @@ import { useCarrito } from '../../context/useCarrito';
 import { buscarZona } from '../../utils/calcularEnvio';
 import './CarritoModal.css';
 
-const WHATSAPP_NUMERO = '523121508470'; // ← cambia por tu número
+const WHATSAPP_NUMERO = '523121508470';
 const DIRECCION_PICKUP = 'Calle Castilla #1383, Montellano 2';
+
+const DATOS_TRANSFERENCIA = {
+  clabe: '722969010600748236',
+  beneficiario: 'Usiel Sebastian Solano Silva',
+  institucion: 'Mercado Pago W',
+};
 
 const formatearOpciones = (item) => {
   const partes = [];
@@ -37,6 +43,8 @@ const CarritoModal = ({ onCerrar }) => {
     numero: '',
   });
   const [errores, setErrores] = useState({});
+  const [copiado, setCopiado] = useState(false);
+  const [pagoCon, setPagoCon] = useState('');
 
   const esEnvio = tipoEntrega === 'envio';
 
@@ -46,10 +54,33 @@ const CarritoModal = ({ onCerrar }) => {
   const envioValido = !esEnvio || costoEnvio !== null;
   const totalConEnvio = total + (envioValido ? costoEnvio || 0 : 0);
 
+  // 💵 Cambio para pago en efectivo
+  const montoPagoCon = parseFloat(pagoCon) || 0;
+  const cambio = montoPagoCon > 0 ? montoPagoCon - totalConEnvio : 0;
+  const cambioValido = montoPagoCon >= totalConEnvio;
+
   const handleChangeForm = (campo, valor) => {
     setFormEnvio((prev) => ({ ...prev, [campo]: valor }));
     if (errores[campo]) {
       setErrores((prev) => ({ ...prev, [campo]: '' }));
+    }
+  };
+
+  const copiarClabe = async () => {
+    try {
+      await navigator.clipboard.writeText(DATOS_TRANSFERENCIA.clabe);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch {
+      // Fallback por si el navegador bloquea clipboard
+      const input = document.createElement('input');
+      input.value = DATOS_TRANSFERENCIA.clabe;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
     }
   };
 
@@ -85,6 +116,16 @@ const CarritoModal = ({ onCerrar }) => {
         alert(
           'No tenemos cobertura para ese CP/Colonia. Revisa los datos o contáctanos por WhatsApp.'
         );
+        return;
+      }
+    }
+    if (tipoPago === 'efectivo') {
+      if (!pagoCon.trim()) {
+        alert('Indica con cuánto pagarás para que el repartidor lleve cambio');
+        return;
+      }
+      if (!cambioValido) {
+        alert('El monto con el que pagas debe ser mayor o igual al total');
         return;
       }
     }
@@ -140,9 +181,18 @@ const CarritoModal = ({ onCerrar }) => {
       mensaje += `*TOTAL A PAGAR:* $${total} (Pick Up)\n\n`;
     }
 
-    mensaje += `*Método de pago:* ${
-      tipoPago === 'transferencia' ? 'Transferencia' : 'Efectivo'
-    }`;
+    // Método de pago + detalles
+    if (tipoPago === 'transferencia') {
+      mensaje += `*Método de pago:* Transferencia\n`;
+      mensaje += `   CLABE: ${DATOS_TRANSFERENCIA.clabe}\n`;
+      mensaje += `   Beneficiario: ${DATOS_TRANSFERENCIA.beneficiario}\n`;
+      mensaje += `   Institución: ${DATOS_TRANSFERENCIA.institucion}\n`;
+      mensaje += `   (Enviar comprobante por este mismo chat)`;
+    } else {
+      mensaje += `*Método de pago:* Efectivo\n`;
+      mensaje += `   Paga con: $${montoPagoCon.toFixed(2)}\n`;
+      mensaje += `   Cambio: $${cambio.toFixed(2)}`;
+    }
 
     const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
@@ -361,6 +411,82 @@ const CarritoModal = ({ onCerrar }) => {
                   💵 Efectivo
                 </label>
               </div>
+
+              {/* DATOS DE TRANSFERENCIA */}
+              {tipoPago === 'transferencia' && (
+                <div className="pago-detalle pago-transferencia">
+                  <p className="pago-detalle-titulo">
+                    Transfiere a la siguiente cuenta:
+                  </p>
+
+                  <div className="clabe-fila">
+                    <div>
+                      <span className="clabe-label">CLABE</span>
+                      <p className="clabe-valor">{DATOS_TRANSFERENCIA.clabe}</p>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn-copiar"
+                      onClick={copiarClabe}
+                      title="Copiar CLABE"
+                    >
+                      {copiado ? '✓ Copiado' : '📋 Copiar'}
+                    </button>
+                  </div>
+
+                  <p className="pago-dato">
+                    <strong>Beneficiario:</strong>{' '}
+                    {DATOS_TRANSFERENCIA.beneficiario}
+                  </p>
+                  <p className="pago-dato">
+                    <strong>Institución:</strong>{' '}
+                    {DATOS_TRANSFERENCIA.institucion}
+                  </p>
+
+                  <p className="pago-aviso">
+                    📌 Envía tu comprobante por WhatsApp al confirmar el pedido.
+                  </p>
+                </div>
+              )}
+
+              {/* EFECTIVO: ¿CON CUÁNTO PAGAS? */}
+              {tipoPago === 'efectivo' && (
+                <div className="pago-detalle pago-efectivo">
+                  <label className="efectivo-label">
+                    ¿Con cuánto vas a pagar? *
+                  </label>
+                  <input
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step="0.01"
+                    value={pagoCon}
+                    onChange={(e) => setPagoCon(e.target.value)}
+                    placeholder={`Ej. ${Math.ceil(totalConEnvio / 50) * 50}`}
+                    className="efectivo-input"
+                  />
+
+                  {montoPagoCon > 0 && (
+                    <div
+                      className={`cambio-info ${
+                        cambioValido ? '' : 'cambio-error'
+                      }`}
+                    >
+                      {cambioValido ? (
+                        <p>
+                          💰 Cambio que llevará el repartidor:{' '}
+                          <strong>${cambio.toFixed(2)}</strong>
+                        </p>
+                      ) : (
+                        <p>
+                          ⚠️ El monto debe ser mayor o igual al total ($
+                          {totalConEnvio})
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             <button className="btn-hacer-pedido" onClick={hacerPedido}>

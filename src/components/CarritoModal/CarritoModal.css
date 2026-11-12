@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   OVERLAY (fondo oscuro)
+   OVERLAY
    ═══════════════════════════════════════════ */
 .carrito-overlay {
   position: fixed;
@@ -20,7 +20,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   CONTENEDOR DEL MODAL
+   MODAL
    ═══════════════════════════════════════════ */
 .carrito-modal {
   background: #ffffff;
@@ -95,7 +95,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   LISTA DE ITEMS
+   ITEMS
    ═══════════════════════════════════════════ */
 .carrito-items {
   max-height: 40vh;
@@ -152,7 +152,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   MÉTODO DE ENTREGA / PAGO
+   ENTREGA / PAGO
    ═══════════════════════════════════════════ */
 .pago-seccion {
   margin-bottom: 1.25rem;
@@ -167,7 +167,7 @@
 .pago-opciones {
   display: flex;
   gap: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .pago-opciones label {
@@ -199,7 +199,151 @@
 }
 
 /* ═══════════════════════════════════════════
-   FORMULARIO DE ENVÍO
+   DETALLE DE PAGO (compartido)
+   ═══════════════════════════════════════════ */
+.pago-detalle {
+  padding: 1rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  animation: carritoFadeIn 0.2s ease-out;
+}
+
+.pago-transferencia {
+  background: #eef6ff;
+  border: 1px solid #4a90e2;
+}
+
+.pago-efectivo {
+  background: #fff8f0;
+  border: 1px solid #ffb347;
+}
+
+.pago-detalle-titulo {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.75rem;
+}
+
+/* CLABE */
+.clabe-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: white;
+  border: 1px dashed #4a90e2;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.clabe-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #4a90e2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.clabe-valor {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #2c3e50;
+  word-break: break-all;
+}
+
+.btn-copiar {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-copiar:hover {
+  background: #357abd;
+}
+
+.btn-copiar:active {
+  transform: scale(0.97);
+}
+
+.pago-dato {
+  font-size: 0.88rem;
+  color: #2c3e50;
+  margin: 0.3rem 0;
+}
+
+.pago-dato strong {
+  color: #4a90e2;
+}
+
+.pago-aviso {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: #555;
+  background: #fff3cd;
+  border-left: 3px solid #ffb347;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+}
+
+/* EFECTIVO */
+.efectivo-label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #b03a2e;
+  margin-bottom: 0.4rem;
+}
+
+.efectivo-input {
+  width: 100%;
+  padding: 0.65rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  color: #333;
+}
+
+.efectivo-input:focus {
+  outline: none;
+  border-color: #ffb347;
+}
+
+.cambio-info {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.cambio-info:not(.cambio-error) {
+  background: #eafaf1;
+  border: 1px solid #27ae60;
+  color: #1e8449;
+}
+
+.cambio-info.cambio-error {
+  background: #fdecea;
+  border: 1px solid #e74c3c;
+  color: #c0392b;
+}
+
+.cambio-info p {
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════
+   FORMULARIO ENVÍO
    ═══════════════════════════════════════════ */
 .form-envio {
   background: #fff8f0;
@@ -262,7 +406,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   INFO DINÁMICA DE ENVÍO CALCULADO
+   INFO ENVÍO CALCULADO
    ═══════════════════════════════════════════ */
 .envio-calculado {
   margin-top: 0.75rem;
@@ -285,7 +429,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   PICKUP INFO
+   PICKUP
    ═══════════════════════════════════════════ */
 .pickup-info {
   background: #eafaf1;
@@ -385,5 +529,14 @@
 
   .resumen-linea.total {
     font-size: 1.15rem;
+  }
+
+  .clabe-fila {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-copiar {
+    width: 100%;
   }
 }
