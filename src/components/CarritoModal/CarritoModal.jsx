@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCarrito } from '../../context/useCarrito';
 import { buscarZona } from '../../utils/calcularEnvio';
+import Horario from '../Horario/Horario';
 import './CarritoModal.css';
 
 const WHATSAPP_NUMERO = '523121508470';
@@ -72,7 +73,6 @@ const CarritoModal = ({ onCerrar }) => {
       setCopiado(true);
       setTimeout(() => setCopiado(false), 2000);
     } catch {
-      // Fallback por si el navegador bloquea clipboard
       const input = document.createElement('input');
       input.value = DATOS_TRANSFERENCIA.clabe;
       document.body.appendChild(input);
@@ -132,7 +132,6 @@ const CarritoModal = ({ onCerrar }) => {
 
     let mensaje = '* PEDIDO - BÜRRITÜS *\n\n';
 
-    // Método de entrega
     if (esEnvio) {
       mensaje += `* Entrega a domicilio*\n`;
       mensaje += `   Dirección: Calle ${formEnvio.calle} #${formEnvio.numero}\n`;
@@ -147,7 +146,6 @@ const CarritoModal = ({ onCerrar }) => {
       mensaje += `   Recoger en: ${DIRECCION_PICKUP}\n\n`;
     }
 
-    // Items
     carrito.forEach((item, i) => {
       mensaje += `*${i + 1}. Burrito de ${item.nombre}* (x${item.cantidad})\n`;
       mensaje += item.esLowCarb
@@ -166,13 +164,14 @@ const CarritoModal = ({ onCerrar }) => {
         .join(', ');
       if (aderezos) mensaje += `   + Aderezo: ${aderezos}\n`;
 
-      if (item.picoDeGallo > 0) mensaje += `   + Pico de gallo x${item.picoDeGallo}\n`;
-      if (item.extraProteina) mensaje += `   + Extra: ${item.extraProteina} (+$10)\n`;
+      if (item.picoDeGallo > 0)
+        mensaje += `   + Pico de gallo x${item.picoDeGallo}\n`;
+      if (item.extraProteina)
+        mensaje += `   + Extra: ${item.extraProteina} (+$10)\n`;
 
       mensaje += `   Subtotal: $${item.precioTotal}\n\n`;
     });
 
-    // Totales
     mensaje += `*Subtotal:* $${total}\n`;
     if (esEnvio) {
       mensaje += `*Envío:* $${costoEnvio}\n`;
@@ -181,7 +180,6 @@ const CarritoModal = ({ onCerrar }) => {
       mensaje += `*TOTAL A PAGAR:* $${total} (Pick Up)\n\n`;
     }
 
-    // Método de pago + detalles
     if (tipoPago === 'transferencia') {
       mensaje += `*Método de pago:* Transferencia\n`;
       mensaje += `   CLABE: ${DATOS_TRANSFERENCIA.clabe}\n`;
@@ -194,7 +192,9 @@ const CarritoModal = ({ onCerrar }) => {
       mensaje += `   Cambio: $${cambio.toFixed(2)}`;
     }
 
-    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(
+      mensaje
+    )}`;
     window.open(url, '_blank');
     vaciarCarrito();
     onCerrar();
@@ -210,11 +210,12 @@ const CarritoModal = ({ onCerrar }) => {
           </button>
         </div>
 
+        <Horario />
+
         {carrito.length === 0 ? (
           <p className="carrito-vacio">Tu carrito está vacío</p>
         ) : (
           <>
-            {/* ITEMS */}
             <div className="carrito-items">
               {carrito.map((item) => (
                 <div key={item.id} className="carrito-item">
@@ -231,13 +232,14 @@ const CarritoModal = ({ onCerrar }) => {
                   </div>
                   <div className="item-precio">
                     <span>${item.precioTotal}</span>
-                    <button onClick={() => eliminarDelCarrito(item.id)}>🗑️</button>
+                    <button onClick={() => eliminarDelCarrito(item.id)}>
+                      🗑️
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* MÉTODO DE ENTREGA */}
             <div className="pago-seccion">
               <h3>Método de entrega</h3>
               <div className="pago-opciones">
@@ -264,11 +266,11 @@ const CarritoModal = ({ onCerrar }) => {
               </div>
             </div>
 
-            {/* FORMULARIO DE ENVÍO */}
             {esEnvio && (
               <div className="form-envio">
                 <p className="form-envio-info">
-                  📍 También puedes recoger en: <strong>{DIRECCION_PICKUP}</strong>
+                  📍 También puedes recoger en:{' '}
+                  <strong>{DIRECCION_PICKUP}</strong>
                 </p>
 
                 <div className="form-grupo">
@@ -284,7 +286,9 @@ const CarritoModal = ({ onCerrar }) => {
                     maxLength={5}
                     className={errores.cp ? 'error' : ''}
                   />
-                  {errores.cp && <span className="error-msg">{errores.cp}</span>}
+                  {errores.cp && (
+                    <span className="error-msg">{errores.cp}</span>
+                  )}
                 </div>
 
                 <div className="form-grupo">
@@ -321,7 +325,9 @@ const CarritoModal = ({ onCerrar }) => {
                     <input
                       type="text"
                       value={formEnvio.numero}
-                      onChange={(e) => handleChangeForm('numero', e.target.value)}
+                      onChange={(e) =>
+                        handleChangeForm('numero', e.target.value)
+                      }
                       placeholder="Ej. 1383"
                       className={errores.numero ? 'error' : ''}
                     />
@@ -331,7 +337,6 @@ const CarritoModal = ({ onCerrar }) => {
                   </div>
                 </div>
 
-                {/* INFO DINÁMICA DE ENVÍO */}
                 {formEnvio.cp.length === 5 && formEnvio.colonia.trim() && (
                   <div
                     className={`envio-calculado ${
@@ -341,7 +346,8 @@ const CarritoModal = ({ onCerrar }) => {
                     {costoEnvio !== null ? (
                       <>
                         <p>
-                          ✅ Cobertura confirmada · <strong>{zonaInfo.zona}</strong>
+                          ✅ Cobertura confirmada ·{' '}
+                          <strong>{zonaInfo.zona}</strong>
                         </p>
                         <p>
                           Costo de envío: <strong>${costoEnvio}</strong>
@@ -358,7 +364,6 @@ const CarritoModal = ({ onCerrar }) => {
               </div>
             )}
 
-            {/* PICKUP INFO */}
             {tipoEntrega === 'pickup' && (
               <div className="pickup-info">
                 <p>🏪 Recoge tu pedido en:</p>
@@ -366,7 +371,6 @@ const CarritoModal = ({ onCerrar }) => {
               </div>
             )}
 
-            {/* RESUMEN */}
             <div className="carrito-resumen">
               <div className="resumen-linea">
                 <span>Subtotal:</span>
@@ -386,7 +390,6 @@ const CarritoModal = ({ onCerrar }) => {
               </div>
             </div>
 
-            {/* MÉTODO DE PAGO */}
             <div className="pago-seccion">
               <h3>Método de pago</h3>
               <div className="pago-opciones">
@@ -412,7 +415,6 @@ const CarritoModal = ({ onCerrar }) => {
                 </label>
               </div>
 
-              {/* DATOS DE TRANSFERENCIA */}
               {tipoPago === 'transferencia' && (
                 <div className="pago-detalle pago-transferencia">
                   <p className="pago-detalle-titulo">
@@ -422,7 +424,9 @@ const CarritoModal = ({ onCerrar }) => {
                   <div className="clabe-fila">
                     <div>
                       <span className="clabe-label">CLABE</span>
-                      <p className="clabe-valor">{DATOS_TRANSFERENCIA.clabe}</p>
+                      <p className="clabe-valor">
+                        {DATOS_TRANSFERENCIA.clabe}
+                      </p>
                     </div>
                     <button
                       type="button"
@@ -449,7 +453,6 @@ const CarritoModal = ({ onCerrar }) => {
                 </div>
               )}
 
-              {/* EFECTIVO: ¿CON CUÁNTO PAGAS? */}
               {tipoPago === 'efectivo' && (
                 <div className="pago-detalle pago-efectivo">
                   <label className="efectivo-label">

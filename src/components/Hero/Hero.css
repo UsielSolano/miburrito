@@ -9,6 +9,12 @@
   color: white;
 }
 
+.hero-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .hero h1 {
   font-size: 4rem;
   color: #ffb347;
@@ -21,6 +27,10 @@
 }
 
 @media (max-width: 600px) {
-  .hero h1 { font-size: 2.5rem; }
-  .hero p { font-size: 1.1rem; }
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  .hero p {
+    font-size: 1.1rem;
+  }
 }

@@ -199,7 +199,7 @@
 }
 
 /* ═══════════════════════════════════════════
-   DETALLE DE PAGO (compartido)
+   DETALLE DE PAGO
    ═══════════════════════════════════════════ */
 .pago-detalle {
   padding: 1rem;
@@ -225,7 +225,6 @@
   margin-bottom: 0.75rem;
 }
 
-/* CLABE */
 .clabe-fila {
   display: flex;
   justify-content: space-between;
@@ -295,7 +294,6 @@
   border-radius: 6px;
 }
 
-/* EFECTIVO */
 .efectivo-label {
   display: block;
   font-size: 0.9rem;
