@@ -2,16 +2,12 @@ import { useState } from 'react';
 import { useCarrito } from '../../context/useCarrito';
 import './BurritoCard.css';
 
-const EXTRAS_PROTEINA = [
-  'Pollo',
-  'Arrachera',
-  'Adobada'
-];
+const EXTRAS_PROTEINA = ['Pollo', 'Arrachera', 'Adobada'];
 const SALSAS = ['Roja', 'Verde'];
 const ADEREZOS = ['Ranch', 'Chipotle'];
 const COSTO_EXTRA = 10;
 
-const BurritoCard = ({ burrito, esLowCarb = false }) => {
+const BurritoCard = ({ burrito, esLowCarb = false, esPapas = false }) => {
   const { agregarAlCarrito } = useCarrito();
   const [modalAbierto, setModalAbierto] = useState(false);
   const [cantidad, setCantidad] = useState(1);
@@ -62,13 +58,16 @@ const BurritoCard = ({ burrito, esLowCarb = false }) => {
   };
 
   const handleAgregar = () => {
-    if (totalSalsas === 0) {
-      alert('Elige al menos 1 salsa');
-      return;
-    }
-    if (totalAderezos === 0) {
-      alert('Elige al menos 1 aderezo');
-      return;
+    // Salsas y aderezos obligatorios solo para burritos
+    if (!esPapas) {
+      if (totalSalsas === 0) {
+        alert('Elige al menos 1 salsa');
+        return;
+      }
+      if (totalAderezos === 0) {
+        alert('Elige al menos 1 aderezo');
+        return;
+      }
     }
 
     const item = {
@@ -76,6 +75,7 @@ const BurritoCard = ({ burrito, esLowCarb = false }) => {
       nombre: burrito.nombre,
       precioBase: burrito.precio,
       esLowCarb,
+      esPapas,
       extraProteina: extraProteina || null,
       salsas: { ...salsas },
       aderezos: { ...aderezos },
@@ -98,11 +98,18 @@ const BurritoCard = ({ burrito, esLowCarb = false }) => {
 
   return (
     <>
-      <div className={`burrito-card ${esLowCarb ? 'lowcarb' : ''}`}>
+      <div
+        className={`burrito-card ${esLowCarb ? 'lowcarb' : ''} ${
+          esPapas ? 'papas' : ''
+        }`}
+      >
         {esLowCarb && <span className="badge-lowcarb">LOW CARB </span>}
-        <h3>Burrito {burrito.nombre}</h3>
+        
+        <h3>{esPapas ? burrito.nombre : `Burrito ${burrito.nombre}`}</h3>
         <p className="ingredientes">
-          {esLowCarb
+          {esPapas
+            ? 'Papas gajo de 300 g · Puedes agregar proteína extra'
+            : esLowCarb
             ? 'Lechuga · Arroz rojo · Frijol · Queso'
             : 'Arroz rojo · Frijol · Lechuga · Queso'}
         </p>
@@ -113,67 +120,79 @@ const BurritoCard = ({ burrito, esLowCarb = false }) => {
       {modalAbierto && (
         <div className="modal-overlay" onClick={() => setModalAbierto(false)}>
           <div className="modal-card" onClick={(e) => e.stopPropagation()}>
-            <h3>Burrito {burrito.nombre}</h3>
-            {esLowCarb && <p className="nota-lowcarb">Versión sin tortilla · LOW CARB 🥗</p>}
+            <h3>{esPapas ? burrito.nombre : `Burrito ${burrito.nombre}`}</h3>
+            {esLowCarb && (
+              <p className="nota-lowcarb">Versión sin tortilla · LOW CARB 🥗</p>
+            )}
+            {esPapas && <p className="nota-papas">🍟 Papas gajo de 300 g</p>}
 
-            {/* SALSAS */}
-            <div className="opcion-grupo">
-              <p className="opcion-titulo">
-                Salsas <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
-              </p>
-              {SALSAS.map((s) => (
-                <div key={s} className="opcion-fila">
-                  <span>{s}</span>
-                  <div className="contador">
-                    <button onClick={() => cambiarSalsa(s, -1)}>−</button>
-                    <span>{salsas[s]}</span>
-                    <button onClick={() => cambiarSalsa(s, 1)}>+</button>
+            {/* SALSAS (solo burritos) */}
+            {!esPapas && (
+              <div className="opcion-grupo">
+                <p className="opcion-titulo">
+                  Salsas <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
+                </p>
+                {SALSAS.map((s) => (
+                  <div key={s} className="opcion-fila">
+                    <span>{s}</span>
+                    <div className="contador">
+                      <button onClick={() => cambiarSalsa(s, -1)}>−</button>
+                      <span>{salsas[s]}</span>
+                      <button onClick={() => cambiarSalsa(s, 1)}>+</button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
-            {/* ADEREZOS */}
-            <div className="opcion-grupo">
-              <p className="opcion-titulo">
-                Aderezos <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
-              </p>
-              {ADEREZOS.map((a) => (
-                <div key={a} className="opcion-fila">
-                  <span>{a}</span>
-                  <div className="contador">
-                    <button onClick={() => cambiarAderezo(a, -1)}>−</button>
-                    <span>{aderezos[a]}</span>
-                    <button onClick={() => cambiarAderezo(a, 1)}>+</button>
+            {/* ADEREZOS (solo burritos) */}
+            {!esPapas && (
+              <div className="opcion-grupo">
+                <p className="opcion-titulo">
+                  Aderezos <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
+                </p>
+                {ADEREZOS.map((a) => (
+                  <div key={a} className="opcion-fila">
+                    <span>{a}</span>
+                    <div className="contador">
+                      <button onClick={() => cambiarAderezo(a, -1)}>−</button>
+                      <span>{aderezos[a]}</span>
+                      <button onClick={() => cambiarAderezo(a, 1)}>+</button>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
-            {/* PICO DE GALLO */}
-            <div className="opcion-grupo">
-              <p className="opcion-titulo">
-                Pico de gallo <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
-              </p>
-              <div className="opcion-fila">
-                <span>Porción</span>
-                <div className="contador">
-                  <button onClick={() => cambiarPico(-1)}>−</button>
-                  <span>{picoDeGallo}</span>
-                  <button onClick={() => cambiarPico(1)}>+</button>
+            {/* PICO DE GALLO (solo burritos) */}
+            {!esPapas && (
+              <div className="opcion-grupo">
+                <p className="opcion-titulo">
+                  Pico de gallo <small>(1 gratis · cada extra +${COSTO_EXTRA})</small>
+                </p>
+                <div className="opcion-fila">
+                  <span>Porción</span>
+                  <div className="contador">
+                    <button onClick={() => cambiarPico(-1)}>−</button>
+                    <span>{picoDeGallo}</span>
+                    <button onClick={() => cambiarPico(1)}>+</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
-            {/* EXTRA PROTEÍNA (incluye el mismo sabor) */}
+            {/* EXTRA PROTEÍNA (burritos y papas) */}
             <div className="extra-select">
               <label>Ingrediente extra (+${COSTO_EXTRA}):</label>
-              <select value={extraProteina} onChange={(e) => setExtraProteina(e.target.value)}>
+              <select
+                value={extraProteina}
+                onChange={(e) => setExtraProteina(e.target.value)}
+              >
                 <option value="">Sin extra</option>
                 {EXTRAS_PROTEINA.map((e) => (
                   <option key={e} value={e}>
                     {e}
-                    {burrito.nombre.includes(e) ? ' (doble)' : ''}
+                    {!esPapas && burrito.nombre.includes(e) ? ' (doble)' : ''}
                   </option>
                 ))}
               </select>
@@ -191,15 +210,26 @@ const BurritoCard = ({ burrito, esLowCarb = false }) => {
             <div className="desglose-modal">
               <p>Precio base: ${burrito.precio}</p>
               {costoExtraSalsas > 0 && <p>Salsas extra: +${costoExtraSalsas}</p>}
-              {costoExtraAderezos > 0 && <p>Aderezos extra: +${costoExtraAderezos}</p>}
-              {costoExtraPico > 0 && <p>Pico de gallo extra: +${costoExtraPico}</p>}
-              {costoExtraProteina > 0 && <p>Extra {extraProteina}: +${costoExtraProteina}</p>}
+              {costoExtraAderezos > 0 && (
+                <p>Aderezos extra: +${costoExtraAderezos}</p>
+              )}
+              {costoExtraPico > 0 && (
+                <p>Pico de gallo extra: +${costoExtraPico}</p>
+              )}
+              {costoExtraProteina > 0 && (
+                <p>
+                  Extra {extraProteina}: +${costoExtraProteina}
+                </p>
+              )}
               <p>Cantidad: {cantidad}</p>
               <p className="total-modal">Total: ${precioTotal}</p>
             </div>
 
             <div className="modal-botones">
-              <button className="btn-cancelar" onClick={() => setModalAbierto(false)}>
+              <button
+                className="btn-cancelar"
+                onClick={() => setModalAbierto(false)}
+              >
                 Cancelar
               </button>
               <button className="btn-agregar" onClick={handleAgregar}>

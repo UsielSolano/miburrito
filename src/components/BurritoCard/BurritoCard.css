@@ -256,3 +256,35 @@
   background: #27ae60;
   color: white;
 }
+/* PAPAS */
+.burrito-card.papas {
+  border-color: #f1c40f;
+  background: #fffbea;
+}
+
+.burrito-card.papas:hover {
+  box-shadow: 0 10px 25px rgba(241, 196, 15, 0.5);
+}
+
+.badge-papas {
+  display: inline-block;
+  background: #f1c40f;
+  color: #7a5c00;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+}
+
+.nota-papas {
+  background: #fffbea;
+  color: #b8860b;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  border: 1px solid #f1c40f;
+}

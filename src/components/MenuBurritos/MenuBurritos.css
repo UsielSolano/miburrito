@@ -57,3 +57,15 @@
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
 }
+
+.papas-seccion {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 3px dashed #f1c40f;
+}
+
+.papas-header h2 {
+  color: #d4a017;
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+}
